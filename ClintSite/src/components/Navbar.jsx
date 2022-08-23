@@ -1,17 +1,19 @@
-import { Input } from '@material-ui/core';
+
 import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import { Badge } from "@material-ui/core";
 import React from 'react'
 import styled from 'styled-components';
 import { Mobile } from '../pages/Responsive';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from '../redux/userSlice';
 import { deleteAllProducts } from '../redux/ReduxCart';
+import { useState } from 'react';
 
 
 const Container=styled.div`
-    height:60px;
+    height:57px;
+    
     ${Mobile({
         width:"100vw",
         height:"70px",
@@ -20,7 +22,7 @@ const Container=styled.div`
     })}
 `;
 const Wrapper=styled.div`
-    padding:15px 20px;
+    padding:5px 20px;
     display:flex;
     justify-content:space-between;
     ${Mobile({
@@ -31,6 +33,7 @@ const Left=styled.div`
     flex:1;
     display:flex;
     align-items :center;
+    justify-content:center;
     ${Mobile({
         display:"none"
     })}
@@ -48,7 +51,7 @@ const Center=styled.div`
     flex:1;
     font-size:38px;
     font-weight: bold;
-    text-align:center;
+    // text-align:center;
     font-family: 'Lobster', cursive;
     color:#59A3C9;
     ${Mobile({
@@ -62,6 +65,7 @@ const Right=styled.div`
     display:flex;
     align-items:center;
     justify-content:flex-end;
+    // padding-right:20px;
     ${Mobile({
         // display:"flex",
         // alignItens:"center",
@@ -76,7 +80,10 @@ const Language=styled.span`
     ${Mobile({display:"none"})}
 `;
 const SearchContainer=styled.div`
-    margin-left:20px;
+    // margin-left:20px;
+    width:30vw;
+    height:30px;
+    // background-color:gray;
     border:0.5px solid lightgray;
     display:flex;
     align-items:center;
@@ -89,15 +96,24 @@ const SearchContainer=styled.div`
 `;
 const Inputs=styled.input`
     border:none;
+    // border-radius:5px;
+    // background-color:gray;
+    color:black;
+    width :90%;
+    padding:2px;
+    padding-left:20px;
+    &:focus{
+        outline:none;
+    }
     ${Mobile({
-        width:"100px",
+        width:"100%",
         // textAlign:"center"
         
     })}
     
 `;
 const MenuLinks=styled.div`
-    font-size:14px;
+    font-size:18px;
     cursor:pointer;
     margin-left:20px;
     ${Mobile({
@@ -106,9 +122,12 @@ const MenuLinks=styled.div`
         padding:"5px"
     })}
 `;
+const Text=styled.span`
+font-size:12px;
+`;
 
 const Navbar = () => {
-
+    const address="/products/";
     const quantity=useSelector(state=>state.cart.quantity);
     let user = useSelector((state) => state.user.currentUser);
     const dispatch=useDispatch();
@@ -121,31 +140,35 @@ const Navbar = () => {
         <LeftMobile>
                 <Language>ENG</Language>
                 <SearchContainer>
-                    <Inputs placeholder='Search'/>
-                    <Search style={{fontSize:"15px"}} />
+                    <Inputs placeholder='Search products category and more' />
+
+                    <Search style={{fontSize:"15px", cursor:"pointer"}} />
                 </SearchContainer>
             </LeftMobile>
         <Wrapper>
+            <Center>
+                <Link to={"/"} style={{textDecoration:"none", color:"black",fontFamily: 'Lobster',color:"#59A3C9"}}> NextFashions.</Link>
+            </Center>
             <Left>
-                <Language>ENG</Language>
+                {/* <Language>ENG</Language> */}
                 <SearchContainer>
-                    <Inputs placeholder='Search'/>
-                    <Search style={{fontSize:"15px"}} />
+                    <Inputs placeholder='Search for products category and more'/>
+                    <Search style={{fontSize:"25px", cursor:"pointer"}} />
                 </SearchContainer>
             </Left>
-            <Center><Link to={"/"} style={{textDecoration:"none", color:"black",fontFamily: 'Lobster',color:"#59A3C9"}}> NextFashions.</Link></Center>
+            
             <Right>
-                {!user && <MenuLinks><Link to={"/register"} style={{textDecoration:"none", color:"black"}}> REGISTER</Link> </MenuLinks>}
-                {!user && <MenuLinks><Link to={"/login"} style={{textDecoration:"none", color:"black"}}> SIGN IN</Link></MenuLinks>}
-                {user && <MenuLinks onClick={handleLogout}> LOGOUT</MenuLinks>}
-                { user && <MenuLinks>
+                {/* {!user && <MenuLinks><Link to={"/register"} style={{textDecoration:"none", color:"black"}}> REGISTER</Link> </MenuLinks>} */}
+                {!user && <MenuLinks><Link to={"/login"} style={{textDecoration:"none", color:"black"}}> Signin</Link></MenuLinks>}
+                {user && <MenuLinks onClick={handleLogout}> Logout</MenuLinks>}
+                <MenuLinks>
                     <Link to={"/carts"} style={{textDecoration:"none", color:"black"}}>
-                        <Badge badgeContent={ user ? quantity : 0} color="primary">
+                        <Badge badgeContent={ user ? quantity : 0} color="primary" >
                             <ShoppingCartOutlined/>
-                        </Badge>
+                        </Badge ><Text>Cart</Text>
                     </Link>
                 </MenuLinks>
-                }
+                
                 
             </Right>
         </Wrapper>

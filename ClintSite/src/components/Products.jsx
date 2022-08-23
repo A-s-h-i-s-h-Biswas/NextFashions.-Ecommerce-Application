@@ -5,6 +5,7 @@ import Product from './Product';
 import { Mobile } from '../pages/Responsive';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { apiRequest } from '../pages/configAxios';
 const Container=styled.div`
     padding:20px;
     display:flex;
@@ -24,7 +25,7 @@ const Products = ({saveLocation,filters,sort}) => {
   useEffect(()=>{
     const getProducts= async ()=>{
       try{
-        const responce= await axios.get( saveLocation ? `http://localhost:4000/api/products?category=${saveLocation}`:"http://localhost:4000/api/products");
+        const responce= await apiRequest.get( saveLocation ? `/products?category=${saveLocation}`:"/products");
         console.log(responce);
         setProducts(responce.data);
       }catch(error){

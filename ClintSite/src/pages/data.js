@@ -91,6 +91,57 @@ export const popularProducts = [
         img:"https://cdn.pixabay.com/photo/2013/07/13/11/47/low-shoe-158667__340.png",
         cat:"shoes",
       },
+  ];
+
+  export const categoryItems=[
+    {
+      id:1,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/f15c02bfeb02d15d.png?q=100",
+      title:"Top Offers",
+      cat:"offers",
+    },
+    {
+      id:2,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png?q=100",
+      title:"Grocery",
+      cat:"grocery",
+    },
+    {
+      id:3,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png?q=100",
+      title:"Mobiles",
+      cat:"mobiles",
+    },
+    {
+      id:4,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/c12afc017e6f24cb.png?q=100",
+      title:"Fashions",
+      cat:"fashions",
+    },
+    {
+      id:5,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/69c6589653afdb9a.png?q=100",
+      title:"Electronics",
+      cat:"electronics",
+    },
+    {
+      id:6,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/ab7e2b022a4587dd.jpg?q=100",
+      title:"Home Decoration",
+      cat:"home",
+    },
+    {
+      id:7,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/0ff199d1bd27eb98.png?q=100",
+      title:"Appliances",
+      cat:"appliances",
+    },
+    {
+      id:8,
+      img:"https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100",
+      title:"Baby products",
+      cat:"babyproducts",
+    },
   ]
 
 

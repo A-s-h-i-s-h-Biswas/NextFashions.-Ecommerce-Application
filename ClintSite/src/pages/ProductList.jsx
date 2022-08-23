@@ -71,11 +71,13 @@ const ProductList = () => {
         });
     };
     console.log(filters,sort);
+
+
   return (
     <Container>
         <Navbar/>
         <Anouncement/>
-        <Title>{saveLocation}</Title>
+        <Title style={{textTransform: "uppercase"}}>{saveLocation}</Title>
         <FilterContainer>
             <Filter>
                 <FilterTxt>Filter Products:</FilterTxt>

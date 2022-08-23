@@ -55,6 +55,9 @@ const Input=styled.input`
     ${Mobile({
         height:"30px"
     })}
+    &:focus{
+        outline:none;
+    }
 `;
 const Button=styled.button`
     flex:1;

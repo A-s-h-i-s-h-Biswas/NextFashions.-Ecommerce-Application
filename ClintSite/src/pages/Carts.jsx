@@ -7,12 +7,13 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { Mobile } from './Responsive';
 // import { useSelector } from 'react-redux';
-import { deleteProduct, deleteAllProducts } from '../redux/ReduxCart';
+import { deleteProduct, deleteAllProducts, addTotal, deductTotal} from '../redux/ReduxCart';
 import { useDispatch, useSelector } from 'react-redux';
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiRequest } from './configAxios';
 const dotenv=require("dotenv");
 dotenv.config();
 
@@ -240,6 +241,7 @@ position:absolute;
 const Carts = () => {
     const user = useSelector((state) => state.user.currentUser);
     const cart=useSelector(state=>state.cart);
+    const [quantity,setQuantity]=useState(0);
     const dispatch=useDispatch();
     const navigate = useNavigate();
     const [stripeToken, setStripeToken] = useState(null);
@@ -270,7 +272,7 @@ const Carts = () => {
       useEffect(() => {
         const makeRequest = async () => {
           try {
-            const res = await axios.post("http://localhost:4000/api/checkout/payment", {
+            const res = await apiRequest.post("/checkout/payment", {
               tokenId: stripeToken.id,
               amount: cart.total*100,
               quantity:cart.quantity,
@@ -283,11 +285,12 @@ const Carts = () => {
       }, [stripeToken, cart.total,navigate]);
 
 
+
   return (
     <Container>
         <Navbar/>
         <Anouncement/>
-        <Wrapper>
+        { user && cart.quantity>0 ? <Wrapper>
             <Title>YOUR BAG</Title>
             <TopContainer>
                 
@@ -326,10 +329,11 @@ const Carts = () => {
                             </Info>
                         </ImgInfo>
                         <CountPrice>
-                            <Count>
-                                <Remove/>
-                                {product.quantity}
-                                <Add/>
+                            <Count >
+                                {/* <Remove style={{cursor:"pointer"}} /> */}
+                                <Txt style={{fontSize:"15px",}}>Quantity:{product.quantity}</Txt>
+                                
+                                {/* <Add style={{cursor:"pointer"}} /> */}
                             </Count>
                             <Price>Rs.{product.price*product.quantity}/- only.</Price>
                             <Buttons  type="transparent" onClick={()=>{handledelete(product._id)}} style={{marginTop:"25px",width:"65px",height:"35px",fontSize:'12px'}}>Remove</Buttons>
@@ -369,8 +373,24 @@ const Carts = () => {
                         <Buttons style={{width:"99%", height:"40px",backgroundColor:"black", color:"white",textAlign:"center", marginTop:"20px", marginBottom:"15px"}}>BUY NOW</Buttons>
                     </StripeCheckout>
                 </Summary>
-            </BottomContainer>
+            </BottomContainer> 
         </Wrapper>
+        : <Text style={{textAlign:"center", fontSize:"25px",margin:"35px 0"}}>
+                <div>
+                    <Image src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"/>
+                </div>
+                { user ?
+                <div>
+                    <Text>Opps! Your Cart is Empty <br/> <p style={{fontSize:"15px"}}>Continue shopping and add your favourite products into the cart.</p></Text>
+                    <Link to="/"><Buttons style={{backgroundColor:"orange", border:"none", color:"white"}}>Continue Shopping</Buttons></Link>
+                 </div>
+                : <div>
+                    <Text>Missing Your Cart items?</Text>
+                    <Link to="/login"><Buttons style={{backgroundColor:"orange", border:"none", color:"white"}}>Signin</Buttons></Link>
+                </div>
+                }
+            </Text>
+        }
         <Footer/>
     </Container>
   )

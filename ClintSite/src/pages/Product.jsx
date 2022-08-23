@@ -1,15 +1,16 @@
 import { Add, Remove } from '@material-ui/icons';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Anouncement from '../components/Anouncement';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import { Mobile } from './Responsive';
-import { addProduct } from '../redux/ReduxCart';
+import { addProduct,addTotal, deleteProduct } from '../redux/ReduxCart';
 import { useDispatch, useSelector } from 'react-redux';
+import { apiRequest } from './configAxios';
 
 const Container=styled.div`
     ${Mobile({
@@ -109,6 +110,8 @@ const Filter=styled.div`
 `;
 const ActionContainer=styled.div`
     display:flex;
+    // align-items:center;
+    // justify-content:center;
     margin-top:50px;
     ${Mobile({
         flexDirection:"column",
@@ -120,7 +123,7 @@ const ActionContainer=styled.div`
     })}
 `;
 const AddorRemove=styled.div`
-    margin-right:30px;
+    margin-right:100px;
     display: flex;
     align-items:center;
     justify-content:center;
@@ -150,15 +153,16 @@ const Number=styled.div`
 `;
 const AddCart=styled.button`
     
-    margin-right:30px;
+    // margin-right:30px;
     background-color:orange;
-    width:120px;
+    width:200px;
+    height:45px;
     color:white;
-    border:2px solid gray;
+    border:2px solid orange;
     transition:all .5s ease;
     cursor:pointer;
     &:hover{
-        background-color:white;
+        background-color:orange;
         color:black;
         transform:scale(1.1);
     }
@@ -244,11 +248,12 @@ const Product = () => {
     const [color,setColor]=useState("null");
     const [size,setSize]=useState("null");
     const user = useSelector((state) => state.user.currentUser);
+    const cart=useSelector(state=>state.cart);
 
     useEffect(()=>{
         const getProduct=async ()=>{
             try{
-                const res= await axios.get(`http://localhost:4000/api/products/find/${saveId}`);
+                const res= await apiRequest.get(`/products/find/${saveId}`);
                 setProduct(res.data);
                 console.log(saveId);
             }catch(err){}
@@ -265,9 +270,18 @@ const Product = () => {
     };
     const dispatch=useDispatch();
     
+    let id=true;
     const handleClick=()=>{
-        // if(alert===false)isalert=true;
-        user && dispatch(addProduct({...product,quantity,color,size}));
+        
+        
+        cart.products.map(product=>{
+            if(saveId === product._id){
+                id=false;
+                return false;
+            }
+        })
+        
+        user && id && dispatch(addProduct({...product,quantity,color,size}));
     }
     
   return (
@@ -300,6 +314,7 @@ const Product = () => {
                             ))}
                         </Select>
                     </Filter>
+                    
                 </FilterContainer>
                 <ActionContainer>
                     <AddorRemove>
@@ -307,10 +322,12 @@ const Product = () => {
                         <Number>{quantity}</Number>
                         <Add style={{cursor:"pointer"}} onClick={()=>handleQuantity("inc")}/>
                     </AddorRemove>
-                    <AddCart onClick={handleClick}>ADD TO CART</AddCart>
-                    <ShopNow>SHOP NOW</ShopNow>
+                    <AddCart onClick={handleClick} ><Link to="/carts" style={{textDecoration:"none",color:"white"}}>ADD TO CART</Link></AddCart>
+
+                    
+                    {/* <ShopNow>SHOP NOW</ShopNow> */}
                 </ActionContainer>
-                { !user && <Alert> Please Login to use cart and Buy a product.........</Alert>}
+                {/* { !user && <Alert> Please Login to use cart and Buy a product.........</Alert>} */}
             </InfoContainer>
         </SingleItem>
 

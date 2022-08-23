@@ -7,7 +7,7 @@ import { Mobile } from '../pages/Responsive';
 import { Link } from 'react-router-dom';
 const Container=styled.div`
     width:100%;
-    height:100vh;
+    height:70vh;
     display:flex;
     overflow:hidden;
     position:relative;
@@ -43,7 +43,7 @@ const Wrapper=styled.div`
     height:100%;
     display:flex;
     
-    padding-top:10px;
+    // padding-top:10px;
     
     transform:translateX(${props=>props.slideIndx * (-100)}vw);
     transition: all 2s ease;
@@ -63,7 +63,7 @@ const Slide=styled.div`
 `;
 const ImgContainer=styled.div`
     flex:1;
-    height:90vh;
+    height:70vh;
     margin-top:35px;
     ${Mobile({
         height:"250px",
@@ -83,6 +83,7 @@ const Image=styled.img`
 `;
 const InfoContainer=styled.div`
     flex:1;
+    // height:90%;
     padding-right:100px;
     ${Mobile({
         padding:"0 30px 0 10px",
@@ -91,15 +92,15 @@ const InfoContainer=styled.div`
     })}
 `;
 const Title=styled.h1`
-    letter-spacing:1.8px;
-    font-size:50px;
+    letter-spacing:2.5px;
+    font-size:45px;
     ${Mobile({
         fontSize:"18px"
     })}
 `;
 const Desc=styled.p`
     letter-spacing:1.1px;
-    font-size:25px;
+    font-size:20px;
     ${Mobile({
         fontSize:"10px",
         letterSpacing:"0",
@@ -150,7 +151,7 @@ const Sliders=()=> {
                 <InfoContainer>
                     <Title>{item.title}</Title>
                     <Desc> {item.desc}</Desc>
-                    <Button><Link to={`/products/Superdeals`} style={{textDecoration:"none", color:"black"}}>SHOP NOW</Link></Button>
+                    <Button><Link to={`/products/offers`} style={{textDecoration:"none", color:"black"}}>SHOP NOW</Link></Button>
                 </InfoContainer>
                 </Slide>
             ))}
